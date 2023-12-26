@@ -1,21 +1,17 @@
+package Code;
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.jar.JarEntry;
-
+// @SuppressWarnings("serial")
 public class Chessboard extends JPanel
 
 {
-    private static BufferedImage blurredImage;
-
     public static String position;
 
     static Color color = Color.decode("#769656");
 
     public static String[][] board = new String[8][8];
 
-    Chessboard() {
+    public Chessboard() {
 
         initializeBoard();
 
@@ -110,12 +106,12 @@ public class Chessboard extends JPanel
     }
   
             
-            else if (Piece.posiblemove[j][i] =="Capture")
-            {
-                Stroke stroke = new BasicStroke(3.0f);
-                g2d.setStroke(stroke);
-                g2d.drawOval(i*100+10, j*100+10, 90, 90);
-            }
+            // else if (Piece.posiblemove[j][i] =="Capture")
+            // {
+            //     Stroke stroke = new BasicStroke(3.0f);
+            //     g2d.setStroke(stroke);
+            //     g2d.drawOval(i*100+10, j*100+10, 90, 90);
+            // }
         }
         }
     }
@@ -177,6 +173,7 @@ public class Chessboard extends JPanel
         JLabel label = new JLabel();
         label.setFont(new Font("Arial", Font.BOLD, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
+        // announcement.addActionListener(this);
 
         if (playerwin && condition.equals("resign")) {
             label.setText("White wins");
@@ -209,5 +206,6 @@ public class Chessboard extends JPanel
         announcement.setModal(true);
         announcement.setVisible(true);
 
+        
     }
 }

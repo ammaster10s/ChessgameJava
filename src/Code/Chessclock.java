@@ -1,8 +1,11 @@
+package Code;
+
 import javax.swing.JPanel;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+// @SuppressWarnings("serial")
 public class Chessclock extends JPanel implements ActionListener {
     static boolean Gamestart = false;
 
@@ -156,7 +159,7 @@ public class Chessclock extends JPanel implements ActionListener {
         ActionListener[] listeners = timer.getActionListeners();
         for (ActionListener listener : listeners) {
             if (listener instanceof Chessclock) {
-                Chessclock timerListener = (Chessclock) listener;
+//                Chessclock timerListener = (Chessclock) listener;
                 Chessclock.remainingSeconds2 += secondsToAdd;
                 break;
             }

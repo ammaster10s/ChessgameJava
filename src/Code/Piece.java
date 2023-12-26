@@ -1,29 +1,19 @@
+package Code;
 
-import java.time.Period;
 
-import javax.swing.*;
+
 
 public class Piece {
-	// for future AI i
-	// public static final int KING = 1;
-	// public static final int QUEEN = 2;
-	// public static final int ROOK = 3;
-	// public static final int KNIGHT = 4;
-	// public static final int BISHOP = 5;
-	// public static final int PAWN = 6;
-
-	// constant values for the pieces
-	// public static final int KING_VALUE = 1000000;
-	// public static final int QUEEN_VALUE = 9;
-	// public static final int ROOK_VALUE = 5;
-	// public static final int KNIGHT_VALUE = 3;
-	// public static final int BISHOP_VALUE = 3;
-	// public static final int PAWN_VALUE = 1;
 
 	protected boolean color;
 	int Visibility;
 	static String Pieces;
 
+	static boolean hascastleb = true;
+	static boolean hascastlew = true;
+
+	static boolean enpassant = false;
+	static int[] enpassantpossible = new int[1];
 	static boolean incheck = false;
 
 	private static int[] scanXKQ = { -1, 0, 1, 1, 1, 0, -1, -1 };
@@ -196,6 +186,9 @@ public class Piece {
 								if (scanXpawn[i] == 0) {
 									if (y == 1) {
 										posiblemove[y + (scanYpawn[i] * 2 * j)][x + (scanXpawn[i] * j)] = "Posible";
+										posiblemove[y + (scanYpawn[i] * j)][x + (scanXpawn[i] * j)] = "Posible";
+										enpassantpossible[1]= x;
+										enpassant=true;
 									}
 
 									posiblemove[y + (scanYpawn[i] * j)][x + (scanXpawn[i] * j)] = "Posible";
@@ -203,10 +196,11 @@ public class Piece {
 							} else if (Chessboard.board[y + (scanYpawn[i] * j)][x + (scanXpawn[i] * j)]
 									.charAt(0) == 'W') {
 								if (scanXpawn[i] != 0) {
-									posiblemove[y + (scanYpawn[i] * j)][x + (scanXpawn[i] * j)] = "Capture";
+									posiblemove[y + (scanYpawn[i] * j)][x + (scanXpawn[i] * j)] = "Posible";
 									break;
 								}
 							}
+
 						} catch (ArrayIndexOutOfBoundsException e) {
 							continue;
 						}
@@ -333,8 +327,12 @@ public class Piece {
 								if (scanXpawn[i] == 0) {
 									if (y == 6) {
 										posiblemove[y - (scanYpawn[i] * 2 * j)][x + (scanXpawn[i] * j)] = "Posible";
+										posiblemove[y - (scanYpawn[i] * j)][x + (scanXpawn[i] * j)] = "Posible";
+										enpassantpossible[1] =x;
+										enpassant= true;
 									}
 									posiblemove[y - (scanYpawn[i] * j)][x + (scanXpawn[i] * j)] = "Posible";
+									
 								}
 							} else if (Chessboard.board[y - (scanYpawn[i] * j)][x + (scanXpawn[i] * j)]
 									.charAt(0) == 'B') {
@@ -343,6 +341,7 @@ public class Piece {
 									break;
 								}
 							}
+							checkenpassant(y, x);
 						} catch (ArrayIndexOutOfBoundsException e) {
 							continue;
 						}
@@ -435,6 +434,19 @@ public class Piece {
 
 	public void checkking(int y, int x) {
 		posiblemove[y][x] = "Check";
+	}
+
+	public void checkenpassant(int y, int x){
+		if (Piece.Pieces.charAt(0) == 'B' && y == 4 && enpassant == true){
+			posiblemove[y+1][enpassantpossible[1]] = "Posible";
+			enpassant= false;
+			System.out.println("Benpassant");
+		}
+		if (Piece.Pieces.charAt(0) == 'W' && y == 3 && enpassant == true){
+			posiblemove[y-1][enpassantpossible[1]] = "Posible";
+			enpassant= false;
+			System.out.println("Wenpassant");
+		}
 	}
 
 	public static void promotion(int y, int x, boolean color, int yprev, int xprev) {
